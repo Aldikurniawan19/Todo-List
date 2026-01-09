@@ -1,125 +1,73 @@
-Laravel Modern Todo List 📝
+# Laravel Modern Todo List 📝
 
-Aplikasi manajemen tugas sederhana namun elegan yang dibangun menggunakan Laravel. Aplikasi ini dirancang dengan antarmuka yang bersih (clean UI), modern, dan interaktif tanpa perlu memuat ulang halaman (No Page Reload) menggunakan teknologi AJAX/Fetch API.
+Laravel Modern Todo List adalah aplikasi manajemen tugas (Todo List) sederhana namun elegan yang dibangun menggunakan **Laravel Framework**.  
+Aplikasi ini mengusung konsep **Clean UI**, modern, dan **interaktif tanpa reload halaman** dengan memanfaatkan **AJAX / Fetch API**.
 
+> Cocok digunakan sebagai project pembelajaran, portofolio, maupun contoh implementasi CRUD modern berbasis Laravel.
 
+---
 
-✨ Fitur Utama
+## 📸 Preview Aplikasi
+> *(Ganti bagian ini dengan screenshot asli aplikasi Anda)*
 
-⚡ Interaksi Tanpa Reload (AJAX): Menambah, menandai selesai, dan menghapus tugas terjadi secara instan tanpa refresh browser.
+---
 
-🎨 Desain Minimalis & Modern: Menggunakan Tailwind CSS dengan tema "Clean White" yang profesional.
+## ✨ Fitur Utama
 
-🔔 Notifikasi Modern: Menggunakan library Notiflix untuk notifikasi toast dan popup konfirmasi yang halus (bukan alert browser kaku).
+- ⚡ **Interaksi Tanpa Reload (AJAX)**  
+  Menambah, menandai selesai, dan menghapus tugas dilakukan secara instan tanpa refresh browser.
 
-📱 Responsif: Tampilan menyesuaikan dengan baik di Desktop, Tablet, maupun Mobile.
+- 🎨 **Desain Minimalis & Modern**  
+  Menggunakan **Tailwind CSS** dengan tema *Clean White* yang profesional.
 
-🔢 Realtime Counter: Penghitung jumlah tugas update secara otomatis saat tugas ditambah atau dihapus.
+- 🔔 **Notifikasi Modern**  
+  Menggunakan **Notiflix** untuk toast notification dan popup konfirmasi yang halus (tanpa alert bawaan browser).
 
-🛠️ Teknologi yang Digunakan
+- 📱 **Responsif**  
+  Tampilan optimal di Desktop, Tablet, dan Mobile.
 
-Backend: Laravel 10/11 (PHP Framework)
+- 🔢 **Realtime Counter**  
+  Jumlah tugas otomatis ter-update saat data ditambah atau dihapus.
 
-Frontend Styling: Tailwind CSS (via CDN)
+---
 
-Scripting: Vanilla JavaScript (Fetch API)
+## 🛠️ Teknologi yang Digunakan
 
-Libraries:
+### Backend
+- Laravel 12
+- PHP >= 8.3
 
-Notiflix (Untuk Notifikasi & Konfirmasi)
+### Frontend
+- Tailwind CSS (via CDN)
+- Vanilla JavaScript (Fetch API)
 
-FontAwesome (Untuk Ikon)
+### Library Pendukung
+- **Notiflix** – Notifikasi & konfirmasi
+- **Font Awesome** – Ikon
 
-Database: MySQL
+### Database
+- MySQL / MariaDB
 
-⚙️ Prasyarat
+---
 
-Sebelum memulai, pastikan komputer Anda sudah terinstall:
+## ⚙️ Prasyarat Sistem
 
-PHP >= 8.1
+Pastikan perangkat Anda telah terinstall:
 
-Composer
+- PHP >= 8.2
+- Composer
+- Database Server (MySQL / MariaDB)
+- XAMPP / Laragon / sejenisnya
 
-Database Server (MySQL/MariaDB via XAMPP atau Laragon)
+---
 
-🚀 Panduan Instalasi (Step-by-Step)
+## 🚀 Panduan Instalasi
 
-Ikuti langkah berikut untuk menjalankan proyek ini di komputer lokal Anda:
+Ikuti langkah-langkah berikut untuk menjalankan aplikasi secara lokal:
 
-1. Clone atau Download Project
+### 1️⃣ Clone atau Download Repository
+Masuk ke folder proyek melalui terminal / command prompt.
 
-Masuk ke folder proyek Anda melalui terminal/command prompt.
-
-2. Install Dependensi PHP
-
-Jalankan perintah ini untuk mengunduh semua library Laravel yang dibutuhkan:
-
-composer install
-
-
-3. Konfigurasi Environment (.env)
-
-Salin file konfigurasi contoh:
-
-cp .env.example .env
-
-
-Buka file .env tersebut dengan teks editor, lalu cari bagian Database dan sesuaikan dengan setting MySQL Anda:
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=db_todo      # <-- Pastikan nama database ini sudah dibuat di phpMyAdmin
-DB_USERNAME=root         # <-- Default XAMPP biasanya 'root'
-DB_PASSWORD=             # <-- Default XAMPP biasanya kosong
-
-
-4. Generate Application Key
-
-Wajib dijalankan untuk keamanan sesi Laravel:
-
-php artisan key:generate
-
-
-5. Migrasi Database
-
-Perintah ini akan membuat tabel todos di database Anda:
-
-php artisan migrate
-
-
-6. Jalankan Server
-
-Mulai server lokal Laravel:
-
-php artisan serve
-
-
-Aplikasi sekarang dapat diakses di browser melalui alamat:
-👉 https://www.google.com/search?q=http://127.0.0.1:8000
-
-📂 Struktur Kode Penting
-
-Jika Anda ingin memodifikasi aplikasi, berikut adalah file-file kuncinya:
-
-Tampilan (View & JS): resources/views/todos.blade.php
-
-Berisi HTML, Tailwind CSS, dan logika JavaScript (Fetch API & Notiflix).
-
-Controller: app/Http/Controllers/TodoController.php
-
-Menangani logika backend dan mengembalikan respon JSON.
-
-Routing: routes/web.php
-
-Mengatur URL endpoint aplikasi.
-
-Model: app/Models/Todo.php
-
-Konfigurasi interaksi dengan tabel database.
-
-🤝 Lisensi
-
-Proyek ini bersifat Open Source dan bebas digunakan untuk pembelajaran.
-
-Dibuat dengan ❤️ menggunakan Laravel.
+```bash
+git clone <url-repository>
+cd nama-folder-project
