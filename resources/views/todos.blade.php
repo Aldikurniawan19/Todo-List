@@ -107,23 +107,22 @@
 
     <!-- JavaScript Logic -->
     <script>
-        // Inisialisasi Kustomisasi Notiflix (Agar sesuai tema Biru/Putih)
         Notiflix.Notify.init({
             fontFamily: 'Inter',
             borderRadius: '8px',
             position: 'right-top',
             success: {
                 background: '#2563eb',
-            }, // Blue-600
+            },
             failure: {
                 background: '#ef4444',
-            }, // Red-500
+            },
         });
 
         Notiflix.Confirm.init({
-            titleColor: '#1f2937', // Gray-800
-            okButtonBackground: '#ef4444', // Merah untuk aksi hapus
-            cancelButtonBackground: '#9ca3af', // Abu-abu
+            titleColor: '#1f2937',
+            okButtonBackground: '#ef4444',
+            cancelButtonBackground: '#9ca3af',
             fontFamily: 'Inter',
             borderRadius: '10px',
             titleFontSize: '18px',
@@ -141,7 +140,6 @@
             else emptyState.classList.add('hidden');
         }
 
-        // ADD TODO
         document.getElementById('todo-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const title = todoInput.value;
@@ -165,7 +163,6 @@
                     appendTodoToDOM(todo);
                     todoInput.value = '';
                     updateTotal();
-                    // Notifikasi sukses simple
                     Notiflix.Notify.success('Tugas berhasil ditambahkan');
                 }
             } catch (err) {
@@ -198,7 +195,6 @@
             todoList.prepend(li);
         }
 
-        // TOGGLE TODO
         async function toggleTodo(id) {
             try {
                 const res = await fetch(`/todos/${id}`, {
@@ -236,15 +232,13 @@
             }
         }
 
-        // DELETE TODO with Notiflix
         async function deleteTodo(id) {
-            // Konfirmasi Modern dengan Notiflix
             Notiflix.Confirm.show(
                 'Hapus Tugas?',
                 'Tugas ini akan dihapus secara permanen.',
                 'Ya, Hapus',
                 'Batal',
-                async function() { // Jika tombol "Ya" diklik
+                async function() {
                         try {
                             const res = await fetch(`/todos/${id}`, {
                                 method: 'DELETE',
