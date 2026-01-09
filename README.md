@@ -2,7 +2,7 @@ Laravel Modern Todo List 📝
 
 Aplikasi manajemen tugas sederhana namun elegan yang dibangun menggunakan Laravel. Aplikasi ini dirancang dengan antarmuka yang bersih (clean UI), modern, dan interaktif tanpa perlu memuat ulang halaman (No Page Reload) menggunakan teknologi AJAX/Fetch API.
 
-(Anda bisa mengganti link gambar ini dengan screenshot asli aplikasi Anda)
+
 
 ✨ Fitur Utama
 
@@ -24,7 +24,9 @@ Frontend Styling: Tailwind CSS (via CDN)
 
 Scripting: Vanilla JavaScript (Fetch API)
 
-Libraries: * Notiflix (Untuk Notifikasi & Konfirmasi)
+Libraries:
+
+Notiflix (Untuk Notifikasi & Konfirmasi)
 
 FontAwesome (Untuk Ikon)
 
@@ -34,7 +36,7 @@ Database: MySQL
 
 Sebelum memulai, pastikan komputer Anda sudah terinstall:
 
-PHP >= 8.3
+PHP >= 8.1
 
 Composer
 
