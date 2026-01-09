@@ -9,8 +9,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <!-- SweetAlert2 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Notiflix CDN (Modern Alert Library) -->
+    <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/dist/notiflix-aio-3.2.7.min.js"></script>
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -30,11 +32,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        /* Kustomisasi font SweetAlert agar sesuai dengan tema */
-        div:where(.swal2-container) {
-            font-family: 'Inter', sans-serif !important;
         }
     </style>
 </head>
@@ -110,23 +107,32 @@
 
     <!-- JavaScript Logic -->
     <script>
+        // Inisialisasi Kustomisasi Notiflix (Agar sesuai tema Biru/Putih)
+        Notiflix.Notify.init({
+            fontFamily: 'Inter',
+            borderRadius: '8px',
+            position: 'right-top',
+            success: {
+                background: '#2563eb',
+            }, // Blue-600
+            failure: {
+                background: '#ef4444',
+            }, // Red-500
+        });
+
+        Notiflix.Confirm.init({
+            titleColor: '#1f2937', // Gray-800
+            okButtonBackground: '#ef4444', // Merah untuk aksi hapus
+            cancelButtonBackground: '#9ca3af', // Abu-abu
+            fontFamily: 'Inter',
+            borderRadius: '10px',
+            titleFontSize: '18px',
+        });
+
         const todoList = document.getElementById('todo-list');
         const todoInput = document.getElementById('todo-input');
         const emptyState = document.getElementById('empty-state');
         const totalCountEl = document.getElementById('total-count');
-
-        // Konfigurasi Toast SweetAlert (Notifikasi Kecil)
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        });
 
         function updateTotal() {
             const count = todoList.children.length;
@@ -135,6 +141,7 @@
             else emptyState.classList.add('hidden');
         }
 
+        // ADD TODO
         document.getElementById('todo-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const title = todoInput.value;
@@ -158,14 +165,12 @@
                     appendTodoToDOM(todo);
                     todoInput.value = '';
                     updateTotal();
+                    // Notifikasi sukses simple
+                    Notiflix.Notify.success('Tugas berhasil ditambahkan');
                 }
             } catch (err) {
                 console.error(err);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Gagal menambah tugas!',
-                });
+                Notiflix.Notify.failure('Gagal menambah tugas!');
             }
         });
 
@@ -193,6 +198,7 @@
             todoList.prepend(li);
         }
 
+        // TOGGLE TODO
         async function toggleTodo(id) {
             try {
                 const res = await fetch(`/todos/${id}`, {
@@ -230,50 +236,43 @@
             }
         }
 
+        // DELETE TODO with Notiflix
         async function deleteTodo(id) {
-            // SweetAlert2 Confirmation Dialog
-            const result = await Swal.fire({
-                title: 'Apakah Anda yakin?',
-                text: "Tugas yang dihapus tidak dapat dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#2563eb', // Warna Biru (sesuai tema)
-                cancelButtonColor: '#9ca3af', // Warna Abu-abu
-                confirmButtonText: 'Ya, Hapus',
-                cancelButtonText: 'Batal',
-                reverseButtons: true // Tombol Hapus di kanan
-            });
+            // Konfirmasi Modern dengan Notiflix
+            Notiflix.Confirm.show(
+                'Hapus Tugas?',
+                'Tugas ini akan dihapus secara permanen.',
+                'Ya, Hapus',
+                'Batal',
+                async function() { // Jika tombol "Ya" diklik
+                        try {
+                            const res = await fetch(`/todos/${id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                        .getAttribute('content')
+                                }
+                            });
 
-            if (!result.isConfirmed) return;
-
-            try {
-                const res = await fetch(`/todos/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content')
+                            if (res.ok) {
+                                const item = document.getElementById(`todo-${id}`);
+                                item.style.opacity = '0';
+                                item.style.transform = 'translateY(10px)';
+                                setTimeout(() => {
+                                    item.remove();
+                                    updateTotal();
+                                    Notiflix.Notify.success('Tugas berhasil dihapus');
+                                }, 300);
+                            }
+                        } catch (err) {
+                            console.error(err);
+                            Notiflix.Notify.failure('Terjadi kesalahan saat menghapus.');
+                        }
+                    },
+                    function() { // Jika tombol "Batal" diklik
+                        // Tidak melakukan apa-apa
                     }
-                });
-
-                if (res.ok) {
-                    const item = document.getElementById(`todo-${id}`);
-                    item.style.opacity = '0';
-                    item.style.transform = 'translateY(10px)';
-                    setTimeout(() => {
-                        item.remove();
-                        updateTotal();
-
-                        // Tampilkan notifikasi sukses kecil (Toast)
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Tugas berhasil dihapus'
-                        });
-                    }, 300);
-                }
-            } catch (err) {
-                console.error(err);
-                Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus.', 'error');
-            }
+            );
         }
     </script>
 </body>
